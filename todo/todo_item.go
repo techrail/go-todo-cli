@@ -30,6 +30,10 @@ func (todo *Todo) Print() {
 	fmt.Println(todo.Sprint())
 }
 
+func (todo *Todo) PrintIdAndTitle(id int) {
+	fmt.Printf("\n%v: %v", id, todo.Title)
+}
+
 func (todo *Todo) Sprint() string {
 	doneYesNo := "No"
 	if todo.Done {
