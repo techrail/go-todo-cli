@@ -84,6 +84,8 @@ func SingleTodoActions(todo Todo) string {
 	fmt.Printf("\n You have selected: %v", todo.Title)
 	fmt.Printf("\n1. Mark as done")
 	fmt.Printf("\n2. Edit the title")
+	fmt.Printf("\n3. Edit the description")
+	fmt.Printf("\n0. Go back to main loop")
 	fmt.Printf("\nPlease select the option: ")
 	var input string
 	_, err := fmt.Scanf("%s", &input)
