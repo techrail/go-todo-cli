@@ -1,11 +1,11 @@
 package main
 
 import (
-	`encoding/json`
-	`fmt`
-	`os`
+	"encoding/json"
+	"fmt"
+	"os"
 
-	`github.com/techrail/todo-cli/todo`
+	"github.com/techrail/todo-cli/todo"
 )
 
 func main() {
@@ -49,13 +49,22 @@ func main() {
 	}
 
 	// Let's convert the list of Todos to JSON
-	todoJsonBytes, err := json.MarshalIndent(todos, "", "    ")
+	combinedTodos := append(existingTodos, todos...)
+	todoJsonBytes, err := json.MarshalIndent(combinedTodos, "", "    ")
 	if err != nil {
 		fmt.Printf("Error when marshalling to JSON: %v", err)
 		return
 	}
 
 	todoJsonContents := string(todoJsonBytes)
+
+	//Rewriting the whole todo list into a single JSON object instead of creating new object everytime
+	//Might use a different approach with seek, but this is simpler(?)s
+	err = f.Truncate(0)
+
+	if err != nil {
+		fmt.Printf("\n Error while truncating the file.")
+	}
 
 	_, err = f.WriteString(todoJsonContents)
 	if err != nil {
