@@ -31,11 +31,12 @@ func ReadATodo() Todo {
 }
 
 func InputLoop(existingTodos []Todo) []Todo {
+	reader := bufio.NewReader(os.Stdin)
 	todos := make([]Todo, 0)
 	for {
 		fmt.Printf("\nPlease choose an option:\n")
 		fmt.Printf("1. Create a new Todo\n")
-		fmt.Printf("2. Select a new Todo\n")
+		fmt.Printf("2. Select an existing Todo\n")
 		fmt.Printf("0. Exit the loop\n")
 		fmt.Printf("Enter your choice: ")
 		var input string
@@ -67,9 +68,26 @@ func InputLoop(existingTodos []Todo) []Todo {
 			option := SingleTodoActions(existingTodos[selectedTodoIndex])
 			switch option {
 			case "1":
+				existingTodos[selectedTodoIndex].Done = true
 				fmt.Printf("\nYou want to mark the todo `%v` as done!", existingTodos[selectedTodoIndex].Title)
 			case "2":
+				fmt.Printf("\n Please enter the new title: ")
+				newTitle, err := reader.ReadString('\n')
+				if err != nil {
+					fmt.Printf("E#1WBHDI - Error: %v\n", err)
+					continue
+				}
+				existingTodos[selectedTodoIndex].Title = strings.TrimSpace(newTitle)
 				fmt.Printf("\nYou want to edit the title of the Todo `%v`", existingTodos[selectedTodoIndex].Title)
+			case "3":
+				fmt.Printf("\n Please enter the new description: ")
+				newDesc, err := reader.ReadString('\n')
+				if err != nil {
+					fmt.Printf("E#1WBHFU - Error: %v\n", err)
+					continue
+				}
+				existingTodos[selectedTodoIndex].Desc = strings.TrimSpace(newDesc)
+				fmt.Printf("\nYou want to edit the description of the Todo `%v`", existingTodos[selectedTodoIndex].Title)
 			default:
 				fmt.Printf("\n Invalid Selection!")
 			}
